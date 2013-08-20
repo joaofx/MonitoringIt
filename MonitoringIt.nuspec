@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>MonitoringIt</id>
+    <version>0.1.0.0</version>
+    <authors>joaofx</authors>
+    <owners>joaofx</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A lib that helps you write performance counter easily</description>
+  </metadata>
+	<files>
+		<file src="build\bin\MonitoringIt.dll" target="lib" />
+	</files>  
+</package>
