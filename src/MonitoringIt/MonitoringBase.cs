@@ -73,26 +73,28 @@
 
         public void Increment()
         {
-            this.counter.Increment();
+            if (this.counter != null) this.counter.Increment();
         }
 
         public void IncrementBy(int value)
         {
-            this.counter.IncrementBy(value);
+            if (this.counter != null) this.counter.IncrementBy(value);
         }
 
         public void Decrement()
         {
-            this.counter.Decrement();
+            if (this.counter != null) this.counter.Decrement();
         }
 
         public void Begin()
         {
-            WindowsHelper.QueryPerformanceCounter(ref this.startTime);
+            if (this.counter != null) WindowsHelper.QueryPerformanceCounter(ref this.startTime);
         }
 
         public void Finish()
         {
+            if (this.counter == null) return;
+
             long endTime = 0;
             WindowsHelper.QueryPerformanceCounter(ref endTime);
 
