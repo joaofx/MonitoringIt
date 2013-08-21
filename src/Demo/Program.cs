@@ -1,13 +1,11 @@
 ﻿namespace Demo
 {
     using System;
+    using System.Reactive.Subjects;
     using System.Threading;
 
     class Program
     {
-        private static int counter;
-        private static bool increment;
-
         static void Main()
         {
             Console.WriteLine("Starting app");
@@ -16,41 +14,29 @@
 
             Console.WriteLine("Press ctrl+c to quit");
 
-            counter = 1;
-            increment = true;
-
+            var counter = 0;
+            var items = new Subject<int>();
+            items.Subscribe(Process);
+            
             while (true)
             {
-                Monitoring.TransactionsPerSecond.Increment();
-                Monitoring.TransactionsProcessed.Increment();
-
-                NotInitializedMonitoring.Foo.Increment();
-
+                items.OnNext(counter++);
                 SimulateProcessingTransactions();
             }
         }
 
+        private static void Process(int item)
+        {
+            Monitoring.TransactionsPerSecond.Increment();
+            Monitoring.TransactionsProcessed.Increment();
+
+            //// this monitor was not initialized, but the app still working
+            NotInitializedMonitoring.Foo.Increment();
+        }
+
         private static void SimulateProcessingTransactions()
         {
-            Thread.Sleep(10 * counter);
-
-            if (increment)
-            {
-                counter++;
-            }
-            else
-            {
-                counter--;
-            }
-
-            if (counter > 5)
-            {
-                increment = false;
-            }
-            else if (counter == 1)
-            {
-                increment = true;
-            }
+            Thread.Sleep(100);
         }
     }
 }

@@ -11,6 +11,9 @@
         public static Monitoring TransactionsProcessed =
             new Monitoring("Transactions processed", PerformanceCounterType.NumberOfItems32);
 
+        public static Monitoring TransactionAvarageTime =
+            new Monitoring("Transaction avarage time", PerformanceCounterType.AverageTimer32);
+
         public Monitoring(string name, PerformanceCounterType type) : base(name, type)
         {
         }
