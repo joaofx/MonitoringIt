@@ -10,7 +10,8 @@
         {
             Console.WriteLine("Starting app");
 
-            Monitoring.Initialize("MonitoringIt");
+            Monitoring.Register("MonitoringIt");
+            Monitoring.Load("MonitoringIt");
 
             Console.WriteLine("Press ctrl+c to quit");
 
@@ -21,7 +22,11 @@
             while (true)
             {
                 items.OnNext(counter++);
-                SimulateProcessingTransactions();
+
+                if (counter == 1000)
+                {
+                    Monitoring.TransactionsProcessed.Value(0);
+                }
             }
         }
 
@@ -29,14 +34,15 @@
         {
             Monitoring.TransactionsPerSecond.Increment();
             Monitoring.TransactionsProcessed.Increment();
+            Monitoring.TransactionAvarageTime.Begin();
 
             //// this monitor was not initialized, but the app still working
             NotInitializedMonitoring.Foo.Increment();
-        }
 
-        private static void SimulateProcessingTransactions()
-        {
+            //// simulate working
             Thread.Sleep(100);
+
+            Monitoring.TransactionAvarageTime.Finish();
         }
     }
 }

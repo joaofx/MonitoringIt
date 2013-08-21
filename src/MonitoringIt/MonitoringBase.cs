@@ -9,10 +9,11 @@
         where TMonitoring : MonitoringBase<TMonitoring, TType>
     {
         private static readonly Lazy<TMonitoring[]> enumerations = new Lazy<TMonitoring[]>(GetEnumerations);
-        private static bool initialized;
+        private static bool loaded;
         private PerformanceCounter counter;
         private PerformanceCounter baseCounter;
         private long startTime;
+        private static bool registered;
 
         protected MonitoringBase(string name, PerformanceCounterType type)
         {
@@ -37,13 +38,13 @@
             return enumerations.Value;
         }
 
-        public static InitializeResult Initialize(string categoryName)
+        public static InitializeResult Register(string categoryName)
         {
-            if (initialized == false)
+            if (registered == false)
             {
                 var collection = new CounterCreationDataCollection();
                 var monitors = GetAll();
-                
+
                 foreach (var monitor in monitors)
                 {
                     AddInCollection(monitor, collection);
@@ -53,22 +54,35 @@
                 {
                     CreateCategory(collection, categoryName);
                 }
-                catch(Exception exception)
+                catch (Exception exception)
                 {
-                    return new InitializeResult(exception);            
+                    return new InitializeResult(exception);
                 }
-                finally
-                {
-                    foreach (var monitor in monitors)
-                    {
-                        monitor.InitializeCounter(categoryName);
-                    }
 
-                    initialized = true;    
-                }
+                registered = true;
             }
 
             return new InitializeResult();
+        }
+
+        public static void Load(string categoryName)
+        {
+            if (loaded == false)
+            {
+                var monitors = GetAll();
+
+                foreach (var monitor in monitors)
+                {
+                    monitor.InitializeCounter(categoryName);
+                }
+
+                loaded = true;    
+            }
+        }
+
+        public void Value(int value)
+        {
+            if (this.counter != null) this.counter.RawValue = value;
         }
 
         public void Increment()

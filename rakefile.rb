@@ -2,7 +2,7 @@ require 'albacore'
 require 'fileutils'
 
 # actual version
-VERSION = '0.1.2'
+VERSION = '0.1.3'
 
 # dirs
 current_dir = File.dirname(__FILE__)
