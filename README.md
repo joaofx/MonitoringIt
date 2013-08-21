@@ -40,9 +40,9 @@ Monitoring.Initialize("MonitoringIt");
 Requirement
 ---------------
 
-The <pre>Initialize</pre> method will create the performance counter category with the name you passed in parameter.
+The <code>Initialize()</code> method will create the performance counter category with the name you passed in parameter.
 
-To create the category, the application must have administrator previlegies.
+**To create the category, the application must have administrator previlegies**.
 
 The Initialize returns a object that you can check if a exception was thrown
 
@@ -80,6 +80,8 @@ See the demo project in src\Demo
 TODO
 --------------------------------
 
+* Demo using all metrics
+* Show how to configure perfmon
 * License
 * Automated tests
 * Refactoring
