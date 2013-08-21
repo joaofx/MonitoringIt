@@ -4,4 +4,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("MonitoringIt")]
 [assembly: AssemblyCompany("MonitoringIt")]
 [assembly: AssemblyProduct("MonitoringIt")]
-[assembly: AssemblyVersion("0.1.2")]
+[assembly: AssemblyVersion("0.1.3")]
